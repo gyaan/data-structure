@@ -203,7 +203,6 @@ public:
 	}
 
 };
-
 int main() {
 	LinkedList link;
 
@@ -218,6 +217,13 @@ int main() {
 	link.insertAElement(8, 7);
 
 	cout<<"length of the list:"<<link.lengthOfLinkList();
+
+    cout<<"get a fifth element from end "<<endl;
+
+    cout<<"using brute force method: "<<link.findNthElementFromLast(5)<<endl;
+    cout<<"using brute Hash Map: "<<link.findNthElementFromLastUsingHashMap(5)<<endl;
+    cout<<"using brute two pointer: "<<link.findNthElementFromLastUsingTwoPointer(5)<<endl;
+
 
 	link.displayLinkList();
 	cout << endl;
