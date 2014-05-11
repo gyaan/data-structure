@@ -1,6 +1,7 @@
 //complete program for singly link list
 #include<iostream>
 #include<map>
+#include<string>
 using namespace std;
 
 //create a class for Link
@@ -232,6 +233,19 @@ public:
 		this->head = previous;
 	}
 
+	string checkLinkListLenghtIsEvenOrOdd() {
+
+		Link *temp = this->head;
+		while (temp && temp->next) {
+			temp = temp->next->next;
+		}
+
+		if (temp == NULL)
+			return "Even";
+		if (temp->next == NULL)
+			return "Odd";
+	}
+
 };
 int main() {
 	LinkedList link;
@@ -267,6 +281,7 @@ int main() {
 
 	//delte a elements in linklist
 	link.deleteAElement(5);
+	link.deleteAElement(5);
 	cout << endl;
 
 	//display linkList
@@ -276,6 +291,10 @@ int main() {
 //	link.deleteCompleteLinkList();
 	int a = link.lengthOfLinkList();
 	cout << a;
+
+	string check = link.checkLinkListLenghtIsEvenOrOdd();
+	cout<<"stringLenght is "<<check;
+
 
 	//check if linkList have loop
 	bool aa = link.isListHaveALoopUsingTwoPointerMethod();
