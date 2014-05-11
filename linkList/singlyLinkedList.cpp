@@ -52,7 +52,7 @@ public:
 		}
 
 		//insert at the end of the linkList
-		else if (position == lengthOfLinkList()+1) {
+		else if (position == lengthOfLinkList() + 1) {
 			Link * newlink = new Link(value);
 			//store head to current
 			Link * current = this->head;
@@ -61,17 +61,16 @@ public:
 			}
 			current->next = newlink;
 			newlink->next = NULL;
-		}
-		else{
-			cout<<"position culdn't found";
+		} else {
+			cout << "position culdn't found";
 		}
 	}
 
 	int lengthOfLinkList() {
 		Link * current = this->head;
 
-		if(current==NULL){
-			cout<<"list is empty";
+		if (current == NULL) {
+			cout << "list is empty";
 		}
 
 		int length = 0;
@@ -84,9 +83,9 @@ public:
 
 	void displayLinkList() {
 		Link * current = this->head;
-	    if(this->head == NULL){
-	    	cout<<"list is empty";
-	    }
+		if (this->head == NULL) {
+			cout << "list is empty";
+		}
 		while (current != NULL) {
 			cout << "-->" << current->data;
 			current = current->next;
@@ -104,8 +103,7 @@ public:
 		if (position == 1) {
 			this->head = current->next;
 			delete (current);
-		}
-		else {  //if delete some intermediate or last element
+		} else {  //if delete some intermediate or last element
 			int k = 0;
 			Link *previous;
 			while (current->next != NULL && k < position) {
@@ -122,12 +120,12 @@ public:
 		}
 	}
 
-	void deleteCompleteLinkList(){
+	void deleteCompleteLinkList() {
 		Link * temp = this->head;
-		while(temp!=NULL){
-		Link * next=temp->next;
-			delete(temp);
-			temp= next;
+		while (temp != NULL) {
+			Link * next = temp->next;
+			delete (temp);
+			temp = next;
 		}
 		this->head = NULL;
 	}
@@ -201,24 +199,38 @@ public:
 		return 1;
 	}
 
-	bool isListHaveALoopUsingTwoPointerMethod(){
+	bool isListHaveALoopUsingTwoPointerMethod() {
 
-		   //for testing this function creating a loop in the linklist
-		   // make sure linkList have enough elements
+		//for testing this function creating a loop in the linklist
+		// make sure linkList have enough elements
 
-		   Link *temp = this->head;
-           temp->next->next->next = temp->next;
+		Link *temp = this->head;
+		temp->next->next->next = temp->next;
 
-           Link *slow = this->head;
-			Link *fast = this->head;
-			while(fast!=NULL&&fast->next!=NULL){
+		Link *slow = this->head;
+		Link *fast = this->head;
+		while (fast != NULL && fast->next != NULL) {
 			slow = slow->next;
-			fast=fast->next->next;
-			if(slow == fast);
-				return 1;
-			}
-			return 0;
+			fast = fast->next->next;
+			if (slow == fast)
+				;
+			return 1;
 		}
+		return 0;
+	}
+
+	void reverseALinkList() {
+		Link *current = this->head;
+		Link *previous = NULL;
+		Link *temp;
+		while (current != NULL) {
+			temp = current->next;
+			current->next = previous;
+			previous = current;
+			current = temp;
+		}
+		this->head = previous;
+	}
 
 };
 int main() {
@@ -235,15 +247,22 @@ int main() {
 	link.insertAElement(8, 7);
 
 	//display length of list
-	cout<<"length of the list:"<<link.lengthOfLinkList();
+	cout << "length of the list:" << link.lengthOfLinkList();
 
-	cout<<"get a fifth element from end "<<endl;
-    cout<<"using brute force method: "<<link.findNthElementFromLast(5)<<endl;
-    cout<<"using brute Hash Map: "<<link.findNthElementFromLastUsingHashMap(5)<<endl;
-    cout<<"using brute two pointer: "<<link.findNthElementFromLastUsingTwoPointer(5)<<endl;
+	cout << "get a fifth element from end " << endl;
+	cout << "using brute force method: " << link.findNthElementFromLast(5)
+			<< endl;
+	cout << "using brute Hash Map: "
+			<< link.findNthElementFromLastUsingHashMap(5) << endl;
+	cout << "using brute two pointer: "
+			<< link.findNthElementFromLastUsingTwoPointer(5) << endl;
 
-    //display link list
-    link.displayLinkList();
+	cout << endl;
+	link.displayLinkList();
+	link.reverseALinkList();
+	cout << endl << "linkList after reverse" << endl;
+	//display link list
+	link.displayLinkList();
 	cout << endl;
 
 	//delte a elements in linklist
@@ -259,11 +278,11 @@ int main() {
 	cout << a;
 
 	//check if linkList have loop
-    bool aa = link.isListHaveALoopUsingTwoPointerMethod();
-    if(aa)
-    	cout<<"link have loop";
-    else
-    	cout<<"link don't have loop";
+	bool aa = link.isListHaveALoopUsingTwoPointerMethod();
+	if (aa)
+		cout << "link have loop";
+	else
+		cout << "link don't have loop";
 
 	return 0;
 }
