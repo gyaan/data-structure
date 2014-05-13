@@ -1,7 +1,6 @@
 /*
  * stack using linkList
  */
-#include<iostream>
 #include<map>
 using namespace std;
 
@@ -50,22 +49,4 @@ public:
 		return (this->head == NULL);
 	}
 
-
 };
-
-int main() {
-	Stack s;
-	s.push(12);
-	s.push(13);
-	s.push(14);
-	s.push(15);
-	s.push(16);
-	s.push(17);
-	s.push(18);
-	s.push(19);
-	s.push(20);
-	s.push(21);
-    cout<<s.pop()<<"-->";
-    cout<<s.pop();
-	return 0;
-}

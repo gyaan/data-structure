@@ -2,6 +2,7 @@
 #include<iostream>
 #include<map>
 #include<string>
+#include "stackUsingLinkList.h"
 using namespace std;
 
 //create a class for Link
@@ -206,7 +207,7 @@ public:
 		// make sure linkList have enough elements
 
 		Link *temp = this->head;
-		temp->next->next->next = temp->next;
+//		temp->next->next->next = temp->next;
 
 		Link *slow = this->head;
 		Link *fast = this->head;
@@ -233,10 +234,23 @@ public:
 		this->head = previous;
 	}
 
+	static Link * reverseALinklist(Link *headLink) {
+		Link *current = headLink;
+		Link *previous = NULL;
+		Link *temp;
+		while (current != NULL) {
+			temp = current->next;
+			current->next = previous;
+			previous = current;
+			current = temp;
+		}
+		return previous;
+	}
+
 	string checkLinkListLenghtIsEvenOrOdd() {
 
 		Link *temp = this->head;
-		while (temp && temp->next) {
+		while (temp != NULL && temp->next != NULL) {
 			temp = temp->next->next;
 		}
 
@@ -246,19 +260,57 @@ public:
 			return "Odd";
 	}
 
+	static bool isLinkListIspalinDram(Link *headLink) {
+
+		Link *reversHead;
+		reversHead = LinkedList::reverseALinklist(headLink);
+		while (headLink != NULL && reversHead != NULL) {
+
+			if (headLink->data != reversHead->data)
+				return 0;
+			headLink = headLink->next;
+			reversHead = reversHead->next;
+		}
+		return 1;
+	}
+
+	static bool isLinkListPalinDramUsingStack(Link *headLink) {
+		Link * fast = headLink;
+		Link * slow = headLink;
+
+		Stack s; //create a stack
+
+		while (fast != NULL && fast->next != NULL) {
+			s.push(slow->data);
+			slow = slow->next;
+			fast = fast->next->next;
+		}
+		while (slow->next != NULL) {
+			if (slow->next->data != s.pop()) {
+				return 0;
+			}
+			slow = slow->next;
+		}
+		return 1;
+	}
+
+	Link * getFirstElement() {
+		return this->head;
+	}
+
 };
 int main() {
 	LinkedList link;
 
 	//insert elements in the linkList
 	link.insertAElement(1, 1);
-	link.insertAElement(2, 1);
-	link.insertAElement(3, 1);
-	link.insertAElement(4, 1);
-	link.insertAElement(5, 1);
-	link.insertAElement(6, 6);
-	link.insertAElement(7, 5);
-	link.insertAElement(8, 7);
+	link.insertAElement(2, 2);
+	link.insertAElement(3, 3);
+	link.insertAElement(4, 4);
+	link.insertAElement(3, 5);
+	link.insertAElement(2, 6);
+	link.insertAElement(1, 7);
+//	link.insertAElement(8, 8);
 
 	//display length of list
 	cout << "length of the list:" << link.lengthOfLinkList();
@@ -274,34 +326,59 @@ int main() {
 	cout << endl;
 	link.displayLinkList();
 	link.reverseALinkList();
+
 	cout << endl << "linkList after reverse" << endl;
 	//display link list
 	link.displayLinkList();
 	cout << endl;
 
+	//display length of list
+	cout << "length of the list:" << link.lengthOfLinkList();
+
 	//delte a elements in linklist
-	link.deleteAElement(5);
-	link.deleteAElement(5);
+//	link.deleteAElement(5);
+//	link.deleteAElement(5);
 	cout << endl;
+
+	//display linkList
+//	link.displayLinkList();
+//	cout << endl;
 
 	//display linkList
 	link.displayLinkList();
 	cout << endl;
 
+//	bool test = LinkedList::isLinkListIspalinDram(link.getFirstElement());
+//	if(test)
+//		cout<<"link list is palindrom"<<endl;
+//	else
+//		cout<<"link list is not palindrom"<<endl;
+
 //	link.deleteCompleteLinkList();
 	int a = link.lengthOfLinkList();
-	cout << a;
+	cout << "length of the linkList:" << a << endl;
 
-	string check = link.checkLinkListLenghtIsEvenOrOdd();
-	cout<<"stringLenght is "<<check;
-
+	//check linklist length is even or odd
+//	string check;
+//	check = link.checkLinkListLenghtIsEvenOrOdd();
+//	cout<<"length of linkList is :"<<check<<endl;
 
 	//check if linkList have loop
 	bool aa = link.isListHaveALoopUsingTwoPointerMethod();
 	if (aa)
-		cout << "link have loop";
+		cout << "link have loop" << endl;
 	else
-		cout << "link don't have loop";
+		cout << "link don't have loop" << endl;
+
+	//check linklist is palindrom or not
+
+	bool jj = LinkedList::isLinkListPalinDramUsingStack(link.getFirstElement());
+
+	if (jj) {
+		cout << "link list is palindrom"<<endl;
+	} else {
+		cout << "link list is not palindrom"<<endl;
+	}
 
 	return 0;
 }
