@@ -36,7 +36,9 @@ public:
 		Node * temp;
 		temp = this->head;
 		this->head = this->head->next;
-		return temp->value;
+		int returnValue = temp->value;
+		delete(temp);
+		return returnValue;
 
 	}
 
