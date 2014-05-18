@@ -46,7 +46,7 @@ public:
 		return this->head;
 	}
 
-	bool isEmopty() {
+	bool isEmpty() {
 		return (this->head == NULL);
 	}
 

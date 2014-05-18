@@ -5,34 +5,38 @@
 using namespace std;
 
 //Node
+
+template<class T>
 class Node {
 
 public:
-	int value;
+	T value;
 	Node * next;
-	Node(int val) {
+	Node(T val) {
 		this->value = val;
 		this->next = NULL;
 	}
 
 };
 
+
+template<class DT>
 class Stack {
 
-	Node *head;
+	Node <DT> *head;
 public:
 	Stack() {
 		this->head = NULL;
 	}
 
 	void push(int val) {
-		Node *newNode = new Node(val);
+		Node <DT> *newNode = new Node <DT>(val);
 		newNode->next = this->head;
 		this->head = newNode;
 	}
 
 	int pop() {
-		Node * temp;
+		Node <DT> * temp;
 		temp = this->head;
 		this->head = this->head->next;
 		int returnValue = temp->value;
@@ -45,7 +49,7 @@ public:
 		return this->head;
 	}
 
-	bool isEmopty() {
+	bool isEmpty() {
 		return (this->head == NULL);
 	}
 
