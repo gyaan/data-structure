@@ -35,6 +35,7 @@ public:
 
 	//get the front value of queue
 	int front() {
+		this->shiftStackValues();
 		return this->s2.top();
 	}
 
@@ -62,6 +63,7 @@ int main() {
 	Q.enQueue(6);
 	Q.enQueue(7);
 
+	cout<< Q.front();
 	//display queue elements
 	while(!Q.isEmpty())
 	cout << Q.deQueue();
