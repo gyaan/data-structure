@@ -1,3 +1,9 @@
+/*
+ * stackUsingTwoQueue.cpp
+ * Created on: 21-May-2014
+ * Author: Gyaneshwar Pardhi
+ */
+
 #include<iostream>
 //include queue std;
 
