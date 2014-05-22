@@ -1,5 +1,7 @@
 #include<iostream>
-#include<vector>
+#include<climits>
+#include<queue>
+#include<stack>
 using namespace std;
 
 //tree node
@@ -17,67 +19,11 @@ public:
 
 };
 
-//queue class
-class Queue {
-
-public:
-	int maxSize;
-	vector<treeNode*> queVector;
-	int front;
-	int rear;
-	int nItems;
-
-	Queue(int size) {
-		front = 0;
-		rear = -1;
-		nItems = 0;
-		maxSize = size;
-		queVector.reserve(size);
-
-	}
-	void insert(treeNode *j) {
-		if (rear == maxSize - 1)
-			rear = -1;
-		queVector[++rear] = j;
-		nItems++;
-	}
-
-	treeNode* remove() {
-		treeNode* temp = queVector[front++];
-		if (front == maxSize)
-			front = 0;
-		nItems--;
-		return temp;
-	}
-	treeNode* peekFront() {
-		return queVector[front];
-	}
-
-	bool isEmpty() {
-		return (nItems == 0);
-	}
-	bool isFull() {
-		return (nItems == maxSize);
-	}
-
-	int size() {
-		return nItems;
-	}
-
-	void deleteQueue() {
-		while (!isEmpty()) {
-			remove();
-		}
-	}
-
-};
-
 //tree ADT
-
 class tree {
-
-public:
 	treeNode* root;
+public:
+
 	tree() {
 		this->root = NULL;
 	}
@@ -86,7 +32,7 @@ public:
 		treeNode *temp;
 
 		//create a Queue
-		Queue Q(100);
+		queue<treeNode*> Q;
 		treeNode *newNode = new treeNode(value);
 
 		if (!this->root) {
@@ -94,28 +40,26 @@ public:
 			return;
 		}
 
-		Q.insert(Elem);
-		while (!Q.isEmpty()) {
-			temp = Q.remove();
+		Q.push(Elem);
+		while (!Q.empty()) {
+			temp = Q.front();
+			Q.pop();
 			if (temp->leftChild) {
-				Q.insert(temp->leftChild);
+				Q.push(temp->leftChild);
 			} else {
 				temp->leftChild = newNode;
-				Q.deleteQueue();
 				return;
 			}
 
 			if (temp->rightChild) {
-				Q.insert(temp->rightChild);
+				Q.push(temp->rightChild);
 
 			} else {
 				temp->rightChild = newNode;
-				Q.deleteQueue();
 				return;
 			}
 
 		}
-		Q.deleteQueue();/**/
 	}
 
 	void preorderTraversal(treeNode * Elem) {
@@ -149,15 +93,67 @@ public:
 		this->inOrderTraversal(this->root);
 	}
 
+	static int maxElementInTheTree(treeNode * rootNode) {
+
+		int root_val, left, right, max = INT_MIN;
+		if (rootNode != NULL) {
+			root_val = rootNode->val;
+			left = tree::maxElementInTheTree(rootNode->leftChild);
+			right = tree::maxElementInTheTree(rootNode->rightChild);
+			if (left > right)
+				max = left;
+			else
+				max = right;
+
+			if (max < root_val)
+				max = root_val;
+		}
+		return max;
+	}
+
+	static int maxElementInTheTreeWithoutRecursion(treeNode* rootNode) {
+		int max = INT_MIN;
+		queue<treeNode*> Q;
+
+		Q.push(rootNode);
+		while (!Q.empty()) {
+			treeNode * temp = Q.front();
+			Q.pop();
+			if (temp->val > max) {
+				max = temp->val;
+			}
+			if (temp->leftChild) {
+				Q.push(temp->leftChild);
+			}
+			if (temp->rightChild) {
+				Q.push(temp->rightChild);
+			}
+
+		}
+		return max;
+
+	}
+
+	treeNode * getRootNode() {
+		return this->root;
+	}
 };
 
 int main() {
 	tree T;
 	T.insert(1);
-	T.insert(2);
+	T.insert(20);
 	T.insert(3);
 	T.insert(4);
 	T.insert(5);
+
+	//display element
 	T.travers();
+
+	//print the max element
+//	int value = tree::maxElementInTheTree(T.getRootNode());
+	int value = tree::maxElementInTheTreeWithoutRecursion(T.getRootNode());
+	cout << "Max. Value in the Tree:" << value;
+	cout << endl;
 	return 0;
 }
