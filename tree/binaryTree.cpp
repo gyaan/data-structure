@@ -93,6 +93,10 @@ public:
 		this->inOrderTraversal(this->root);
 	}
 
+	treeNode * getRootNode() {
+		return this->root;
+	}
+
 	static int maxElementInTheTree(treeNode * rootNode) {
 
 		int root_val, left, right, max = INT_MIN;
@@ -131,12 +135,50 @@ public:
 
 		}
 		return max;
+	}
+
+	static bool FindAElementInTheTree(treeNode *rootNode, int value) {
+
+		if (rootNode == NULL)
+			return 0;
+		else {
+			if (rootNode->val == value) {
+				return 1;
+			} else {
+				bool temp = tree::FindAElementInTheTree(rootNode->leftChild,
+						value);
+				if (temp != 0)
+					return 1;
+				else
+					tree::FindAElementInTheTree(rootNode->rightChild, value);
+			}
+		}
 
 	}
 
-	treeNode * getRootNode() {
-		return this->root;
+	static bool FindAElementInTheTreeWithoutRecursion(treeNode *rootNode,
+			int value) {
+
+		queue<treeNode *> Q;
+		Q.push(rootNode);
+
+		while (!Q.empty()) {
+			treeNode * temp = Q.front();
+			Q.pop();
+
+			if (temp->val == value) {
+				return 1;
+			}
+			if (temp->leftChild)
+				Q.push(temp->leftChild);
+			if (temp->rightChild)
+				Q.push(temp->rightChild);
+		}
+
+		return 0;
+
 	}
+
 };
 
 int main() {
@@ -155,5 +197,22 @@ int main() {
 	int value = tree::maxElementInTheTreeWithoutRecursion(T.getRootNode());
 	cout << "Max. Value in the Tree:" << value;
 	cout << endl;
+
+	bool isFind = tree::FindAElementInTheTree(T.getRootNode(), 3);
+	if (isFind)
+		cout << "yes given element found in the tree.";
+	else
+		cout << "given element not found in the tree";
+
+	bool isFindWithoutRecursion = tree::FindAElementInTheTreeWithoutRecursion(
+			T.getRootNode(), 13);
+	cout << endl;
+
+	if (isFindWithoutRecursion)
+		cout << "yes again given element found in the tree";
+	else
+		cout << "given element not found in the tree";
+	cout << endl;
+
 	return 0;
 }
