@@ -139,18 +139,19 @@ public:
 
 	static bool FindAElementInTheTree(treeNode *rootNode, int value) {
 
+		//if root node is null
 		if (rootNode == NULL)
 			return 0;
 		else {
-			if (rootNode->val == value) {
+			if (rootNode->val == value) { //if root node value is equal to search key ::yes found
 				return 1;
 			} else {
 				bool temp = tree::FindAElementInTheTree(rootNode->leftChild,
-						value);
-				if (temp != 0)
+						value); //check search key in left child
+				if (temp != 0)  //yes found no need to check in right child
 					return 1;
 				else
-					tree::FindAElementInTheTree(rootNode->rightChild, value);
+					tree::FindAElementInTheTree(rootNode->rightChild, value); //need to check in right child
 			}
 		}
 
@@ -160,24 +161,58 @@ public:
 			int value) {
 
 		queue<treeNode *> Q;
+
+		//add root node in the queue
 		Q.push(rootNode);
 
-		while (!Q.empty()) {
-			treeNode * temp = Q.front();
+		while (!Q.empty()) {  //run till all the elements not checked
+			treeNode * temp = Q.front();  //get the front element form queue
 			Q.pop();
 
-			if (temp->val == value) {
+			if (temp->val == value) { //if search is equal to front  node value :: yes found
 				return 1;
 			}
-			if (temp->leftChild)
+			if (temp->leftChild) //if node have left child add it to queue
 				Q.push(temp->leftChild);
-			if (temp->rightChild)
+			if (temp->rightChild) //if node have right child add it to queue
 				Q.push(temp->rightChild);
 		}
-
-		return 0;
+		return 0; //after traversing complete tree given search key not found
 
 	}
+
+	static int sizeOfBinaryTree(treeNode * rootNode) {
+
+		//size = size of left tree + 1 + size of right tree
+		if (rootNode == NULL)
+			return 0;
+		else
+			return sizeOfBinaryTree(rootNode->leftChild) + 1
+					+ sizeOfBinaryTree(rootNode->rightChild);
+
+	}
+
+	static int sizeOfBinaryTreeWithoutRecursion(treeNode * rootNode){
+		int count =0;
+
+		// create a Q which store pointer of treeNode object
+		queue <treeNode*>Q;
+
+		//add first element to Q
+		Q.push(rootNode);
+
+		while(!Q.empty()){  //till queue is not empty
+			treeNode * temp = Q.front();
+			Q.pop();
+			count++; //increase count by 1
+			if(temp->leftChild) //if node have left child then add it to Q
+				Q.push(temp->leftChild);
+			if(temp->rightChild)  //if node have right child then add it to Q
+				Q.push(temp->rightChild);
+		}
+		return count; //size of tree
+	}
+
 
 };
 
@@ -213,6 +248,13 @@ int main() {
 	else
 		cout << "given element not found in the tree";
 	cout << endl;
+
+	//size of tree
+
+	cout<<"size of tree is "<<tree::sizeOfBinaryTree(T.getRootNode());
+	cout<<endl;
+	cout<<"again size of tree is"<<tree::sizeOfBinaryTreeWithoutRecursion(T.getRootNode());
+
 
 	return 0;
 }
