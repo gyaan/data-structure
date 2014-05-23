@@ -213,16 +213,49 @@ public:
 		return count; //size of tree
 	}
 
+ static void printTheLevelOrderDataInReversOrder(treeNode * rootNode){
+
+	 //define a queue ADT
+	 queue<treeNode*> Q;
+	 //define a stack ADT
+	 stack<treeNode*> St;
+
+	 // add root node to Q
+	 Q.push(rootNode);
+
+	 while(!Q.empty()){  //till queue is not empty
+
+		 treeNode * temp = Q.front();
+         Q.pop(); //pop top element from queue
+
+         if(temp->rightChild)
+        	 Q.push(temp->rightChild); //traverse the right child of root node
+        if(temp->leftChild)
+        	Q.push(temp->leftChild); //then traverse the left child of root node
+         St.push(temp); //add popped element to stack
+	 }
+
+	 //print the tree elements
+	 while(!St.empty()){
+	   treeNode *temp1 = St.top();
+	   St.pop();
+	   cout<<temp1->val<<" ";
+	 }
+ }
+
 
 };
 
 int main() {
 	tree T;
 	T.insert(1);
-	T.insert(20);
+	T.insert(2);
 	T.insert(3);
 	T.insert(4);
 	T.insert(5);
+	T.insert(6);
+	T.insert(7);
+//	T.insert(8);
 
 	//display element
 	T.travers();
@@ -253,8 +286,11 @@ int main() {
 
 	cout<<"size of tree is "<<tree::sizeOfBinaryTree(T.getRootNode());
 	cout<<endl;
-	cout<<"again size of tree is"<<tree::sizeOfBinaryTreeWithoutRecursion(T.getRootNode());
+	cout<<"again size of tree is "<<tree::sizeOfBinaryTreeWithoutRecursion(T.getRootNode());
 
+	cout<<endl;
+	//display elements in order level (reverse order)
+	tree::printTheLevelOrderDataInReversOrder(T.getRootNode());
 
 	return 0;
 }
