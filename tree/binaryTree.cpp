@@ -192,57 +192,114 @@ public:
 
 	}
 
-	static int sizeOfBinaryTreeWithoutRecursion(treeNode * rootNode){
-		int count =0;
+	static int sizeOfBinaryTreeWithoutRecursion(treeNode * rootNode) {
+		int count = 0;
 
 		// create a Q which store pointer of treeNode object
-		queue <treeNode*>Q;
+		queue<treeNode*> Q;
 
 		//add first element to Q
 		Q.push(rootNode);
 
-		while(!Q.empty()){  //till queue is not empty
+		while (!Q.empty()) {  //till queue is not empty
 			treeNode * temp = Q.front();
 			Q.pop();
 			count++; //increase count by 1
-			if(temp->leftChild) //if node have left child then add it to Q
+			if (temp->leftChild) //if node have left child then add it to Q
 				Q.push(temp->leftChild);
-			if(temp->rightChild)  //if node have right child then add it to Q
+			if (temp->rightChild)  //if node have right child then add it to Q
 				Q.push(temp->rightChild);
 		}
 		return count; //size of tree
 	}
 
- static void printTheLevelOrderDataInReversOrder(treeNode * rootNode){
+	static void printTheLevelOrderDataInReversOrder(treeNode * rootNode) {
 
-	 //define a queue ADT
-	 queue<treeNode*> Q;
-	 //define a stack ADT
-	 stack<treeNode*> St;
+		//define a queue ADT
+		queue<treeNode*> Q;
+		//define a stack ADT
+		stack<treeNode*> St;
 
-	 // add root node to Q
-	 Q.push(rootNode);
+		// add root node to Q
+		Q.push(rootNode);
 
-	 while(!Q.empty()){  //till queue is not empty
+		while (!Q.empty()) {  //till queue is not empty
 
-		 treeNode * temp = Q.front();
-         Q.pop(); //pop top element from queue
+			treeNode * temp = Q.front();
+			Q.pop(); //pop top element from queue
 
-         if(temp->rightChild)
-        	 Q.push(temp->rightChild); //traverse the right child of root node
-        if(temp->leftChild)
-        	Q.push(temp->leftChild); //then traverse the left child of root node
-         St.push(temp); //add popped element to stack
-	 }
+			if (temp->rightChild)
+				Q.push(temp->rightChild); //traverse the right child of root node
+			if (temp->leftChild)
+				Q.push(temp->leftChild); //then traverse the left child of root node
+			St.push(temp); //add popped element to stack
+		}
 
-	 //print the tree elements
-	 while(!St.empty()){
-	   treeNode *temp1 = St.top();
-	   St.pop();
-	   cout<<temp1->val<<" ";
-	 }
- }
+		//print the tree elements
+		while (!St.empty()) {
+			treeNode *temp1 = St.top();
+			St.pop();
+			cout << temp1->val << " ";
+		}
+	}
 
+	static void printTheLevelOrderDataInZigZagOrder(treeNode * rootNode) {
+
+		int flag = 1;//flag for visit left-->right
+
+		//define a stack ADT
+		stack<treeNode*> currentLevel;
+		//define a stack ADT
+		stack<treeNode*> nextLevel;
+
+		//define a queue to store final elements to display
+		queue<treeNode*> Q;
+
+		// add root node to currentLevel
+		currentLevel.push(rootNode);
+
+		//till currentLevel stack is not empty
+		while (!currentLevel.empty()) {
+			treeNode * temp = currentLevel.top();
+
+			if (temp) {
+				//add popped element to stack
+				Q.push(temp); //you can print this value here also instead of adding to queue
+				//pop top element from currentLevel stack
+				currentLevel.pop();
+
+				if (flag) {
+					if (temp->leftChild)
+						//traverse the left child of root node
+						nextLevel.push(temp->leftChild);
+					if (temp->rightChild)
+						//then traverse the right child of root node
+						nextLevel.push(temp->rightChild);
+				} else {
+					if (temp->rightChild)
+						//traverse the right child of root node
+						nextLevel.push(temp->rightChild);
+					if (temp->leftChild)
+						//then traverse the left child of root node
+						nextLevel.push(temp->leftChild);
+				}
+
+				//swap elements from next level to current level if currentLevel stack is empty
+				if (currentLevel.empty()) {
+					flag = 1 - flag; //flag changed to visit right-->left
+					swap(currentLevel, nextLevel); //swap stack values
+				}
+			}
+		}
+
+		//print the tree elements in zigzag order
+		while (!Q.empty()) {
+			treeNode *temp1 = Q.front();
+			cout << temp1->val << " ";
+			Q.pop();
+
+		}
+	}
 
 };
 
@@ -255,7 +312,13 @@ int main() {
 	T.insert(5);
 	T.insert(6);
 	T.insert(7);
-//	T.insert(8);
+	T.insert(8);
+	T.insert(9);
+	T.insert(10);
+	T.insert(11);
+	T.insert(12);
+	T.insert(13);
+	T.insert(14);
 
 	//display element
 	T.travers();
@@ -284,13 +347,15 @@ int main() {
 
 	//size of tree
 
-	cout<<"size of tree is "<<tree::sizeOfBinaryTree(T.getRootNode());
-	cout<<endl;
-	cout<<"again size of tree is "<<tree::sizeOfBinaryTreeWithoutRecursion(T.getRootNode());
+	cout << "size of tree is " << tree::sizeOfBinaryTree(T.getRootNode());
+	cout << endl;
+	cout << "again size of tree is "
+			<< tree::sizeOfBinaryTreeWithoutRecursion(T.getRootNode());
 
-	cout<<endl;
+	cout << endl;
 	//display elements in order level (reverse order)
 	tree::printTheLevelOrderDataInReversOrder(T.getRootNode());
-
+	cout << endl;
+	tree::printTheLevelOrderDataInZigZagOrder(T.getRootNode());
 	return 0;
 }
