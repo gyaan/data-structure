@@ -245,7 +245,7 @@ public:
 
 	static void printTheLevelOrderDataInZigZagOrder(treeNode * rootNode) {
 
-		int flag = 1;//flag for visit left-->right
+		int flag = 1; //flag for visit left-->right
 
 		//define a stack ADT
 		stack<treeNode*> currentLevel;
@@ -301,10 +301,163 @@ public:
 		}
 	}
 
+	//calculate height of tree using recursion
+	static int heightOfBinaryTree(treeNode *rootNode) {
+
+		if (rootNode == NULL)
+			return 0;
+		else {
+			//get the height of left child
+			int leftHeight = tree::heightOfBinaryTree(rootNode->leftChild);
+
+			//get the height of right child
+			int rightHeight = tree::heightOfBinaryTree(rootNode->rightChild);
+
+			//return max(leftHeight,rightHeight)+1
+			if (leftHeight > rightHeight)
+				return leftHeight + 1;
+			else
+				return rightHeight + 1;
+		}
+
+	}
+
+	//calculate height of tree without recursion
+	static int heightOfBinaryTreeWithoutRecursion(treeNode *rootNode) {
+		int height = 0;
+		//create queues to store current and next level nodes
+		queue<treeNode*> Q1;
+		queue<treeNode*> Q2;
+
+		//add top rootNode to Q1
+		Q1.push(rootNode);
+
+		while (!Q1.empty()) { //for each level
+			treeNode * temp = Q1.front();
+			Q1.pop();
+
+			if (temp->leftChild)
+				Q2.push(temp->leftChild);
+
+			if (temp->rightChild)
+				Q2.push(temp->rightChild);
+
+			if (Q1.empty()) {
+				//increase height when move to another level
+				height++;
+				//swap elements from next level to current level
+				swap(Q1, Q2);
+			}
+		}
+		return height; //final height of tree
+	}
+
+	//get deepest node in the tree
+	static int deepestNodeInTheTree(treeNode *rootNode) {
+
+		treeNode * temp;
+
+		// create two queues to store tree current and next level elements
+		queue<treeNode*> Q1;
+		queue<treeNode*> Q2;
+
+		Q1.push(rootNode);
+
+		while (!Q1.empty()) { //for each level
+			temp = Q1.front();
+			Q1.pop();
+
+			if (temp->leftChild)
+				Q2.push(temp->leftChild);
+			if (temp->rightChild)
+				Q2.push(temp->rightChild);
+
+			//swap next level elements to current level
+			if (Q1.empty()) {
+				swap(Q1, Q2);
+			}
+		}
+
+		//last node of Q1 will be the deepest node
+		return temp->val;
+	}
+
+	//count of leaf nodes
+
+	static int countOfLeafNodes(treeNode *rootNode) {
+
+		//create queue to traverse level order
+		queue<treeNode *> Q1;
+
+		//define count for leaf nodes
+		int count = 0;
+
+		Q1.push(rootNode);
+		while (!Q1.empty()) {
+			treeNode * temp = Q1.front();
+			Q1.pop();
+
+			//count of leafNodes
+			if (temp->leftChild == NULL && temp->rightChild == NULL)
+				count++;
+
+			//for full nodes
+			//if (temp->leftChild != NULL && temp->rightChild != NULL)
+
+			//for half nodes
+			//if ((temp->leftChild != NULL && temp->rightChild == NULL) || (temp->leftChild == NULL && temp->rightChild != NULL) )
+
+			if (temp->leftChild)
+				Q1.push(temp->leftChild);
+			if (temp->rightChild)
+				Q1.push(temp->rightChild);
+
+		}
+		return count; //final count
+	}
+
+	//
+
+	static int countOfLeafNodesUsingRecursion(treeNode *rootNode) {
+
+		//leaf node property
+		if (rootNode->leftChild == NULL && rootNode->rightChild == NULL)
+			return 1;
+		//if both children are not null then get sum of their leaf nodes
+		else if (rootNode->leftChild && rootNode->rightChild)
+			return (tree::countOfLeafNodesUsingRecursion(rootNode->leftChild)
+					+ tree::countOfLeafNodesUsingRecursion(rootNode->rightChild));
+		//if right child is null
+		else if (rootNode->leftChild)
+			tree::countOfLeafNodesUsingRecursion(rootNode->leftChild);
+		// if left child is null
+		else
+			tree::countOfLeafNodesUsingRecursion(rootNode->rightChild);
+
+	}
+
+	//check to binary tree is identical
+
+	static bool isBinaryTreeIdentical(treeNode *rootNode1,
+			treeNode *rootNode2) {
+
+		if (rootNode1 == NULL && rootNode2 == NULL)
+			return true;
+		else if (rootNode1 == NULL || rootNode2 == NULL)
+			return false;
+		else
+			return (rootNode1->val == rootNode2->val
+					&& isBinaryTreeIdentical(rootNode1->leftChild,
+							rootNode2->leftChild)
+					&& isBinaryTreeIdentical(rootNode1->rightChild,
+							rootNode2->rightChild));
+
+	}
+
 };
 
 int main() {
-	tree T;
+	tree T, T2;
 	T.insert(1);
 	T.insert(2);
 	T.insert(3);
@@ -319,6 +472,13 @@ int main() {
 	T.insert(12);
 	T.insert(13);
 	T.insert(14);
+
+	//add elements in T2
+
+	T2.insert(1);
+	T2.insert(2);
+	T2.insert(3);
+	T2.insert(4);
 
 	//display element
 	T.travers();
@@ -356,6 +516,33 @@ int main() {
 	//display elements in order level (reverse order)
 	tree::printTheLevelOrderDataInReversOrder(T.getRootNode());
 	cout << endl;
+
 	tree::printTheLevelOrderDataInZigZagOrder(T.getRootNode());
+	cout << endl;
+
+	cout << "Height of Tree: " << tree::heightOfBinaryTree(T.getRootNode());
+	cout << endl;
+
+	cout << "Again Height of Tree: "
+			<< tree::heightOfBinaryTreeWithoutRecursion(T.getRootNode());
+	cout << endl;
+
+	cout << "deepest node of tree: "
+			<< tree::deepestNodeInTheTree(T.getRootNode());
+	cout << endl;
+
+	cout << "count of leaf nodes " << tree::countOfLeafNodes(T.getRootNode());
+	cout << endl;
+
+	cout << "again count of leaf nodes "
+			<< tree::countOfLeafNodesUsingRecursion(T.getRootNode());
+	cout << endl;
+
+	bool test = tree::isBinaryTreeIdentical(T.getRootNode(), T2.getRootNode());
+	if (test)
+		cout << "Yes man both binary trees are identical enjoy !!! ";
+	else
+		cout << "No man both binary trees are not identical so sad !!! ";
+
 	return 0;
 }
