@@ -532,38 +532,78 @@ public:
 		return maxLevel;
 	}
 
-	static void printLeafNodePathFromRoot(treeNode *rootNode,int path[],int pathLength){
+	static void printLeafNodePathFromRoot(treeNode *rootNode, int path[],
+			int pathLength) {
 
-		if (rootNode==NULL)  //if root node is null
+		if (rootNode == NULL)  //if root node is null
 			return;
 
-		path[pathLength]=rootNode->val; //add root node value to path array
-        pathLength++; //increase the path length by 1
+		path[pathLength] = rootNode->val; //add root node value to path array
+		pathLength++; //increase the path length by 1
 
-        //if root node is a leaf node then print path from root to that node
-		if(rootNode->leftChild ==NULL && rootNode->rightChild ==NULL){
+		//if root node is a leaf node then print path from root to that node
+		if (rootNode->leftChild == NULL && rootNode->rightChild == NULL) {
 			//printArray is function which just print the array values
-			printArray(path,pathLength);
-            cout<<endl;
+			printArray(path, pathLength);
+			cout << endl;
 		}
 		//if root node is not leaf node
-		else{
+		else {
 
-			 //call function for left child
-			if(rootNode->leftChild)
-				tree::printLeafNodePathFromRoot(rootNode->leftChild,path,pathLength);
+			//call function for left child
+			if (rootNode->leftChild)
+				tree::printLeafNodePathFromRoot(rootNode->leftChild, path,
+						pathLength);
 
 			//call function for right child
-			if(rootNode->rightChild)
-				tree::printLeafNodePathFromRoot(rootNode->rightChild,path,pathLength);
+			if (rootNode->rightChild)
+				tree::printLeafNodePathFromRoot(rootNode->rightChild, path,
+						pathLength);
 		}
 
 	}
 
-	void static printArray(int arr[],int length){
+	static bool hasPathWithGivenSum(treeNode *rootNode, int sum) {
 
-		for(int i=0;i<length;i++)
-			cout<<arr[i]<<" ";
+		// if we check complete tree and sum is zero  then return true
+		if (rootNode == NULL)
+			return (sum == 0);
+
+		//remaining sum
+		int remainingSum = sum - rootNode->val;
+
+		// if root node have both child or both are null i.e. leaf Node
+		if ((rootNode->leftChild && rootNode->rightChild)
+				|| (!rootNode->leftChild && !rootNode->rightChild)) {
+
+			return (hasPathWithGivenSum(rootNode->leftChild, remainingSum)
+					|| hasPathWithGivenSum(rootNode->rightChild, remainingSum));
+
+			//if right child is null
+		} else if (rootNode->leftChild)
+			return hasPathWithGivenSum(rootNode->leftChild, remainingSum);
+
+		//if left child is null
+		else
+			return hasPathWithGivenSum(rootNode->rightChild, remainingSum);
+
+	}
+
+	static int sumOfAllBinaryTreeElements(treeNode *rootNode) {
+
+		if (rootNode == NULL)
+			return 0;
+		else
+			return sumOfAllBinaryTreeElements(rootNode->leftChild)
+					+ rootNode->val
+					+ sumOfAllBinaryTreeElements(rootNode->rightChild);
+
+	}
+
+	void static printArray(int arr[], int length) {
+
+		for (int i = 0; i < length; i++)
+			cout << arr[i] << " ";
 
 	}
 
@@ -586,17 +626,17 @@ int main() {
 	T.insert(13);
 	T.insert(14);
 
-	//add elements in T2
+//add elements in T2
 
 	T2.insert(1);
 	T2.insert(2);
 	T2.insert(3);
 	T2.insert(4);
 
-	//display element
+//display element
 	T.travers();
 
-	//print the max element
+//print the max element
 //	int value = tree::maxElementInTheTree(T.getRootNode());
 	int value = tree::maxElementInTheTreeWithoutRecursion(T.getRootNode());
 	cout << "Max. Value in the Tree:" << value;
@@ -618,7 +658,7 @@ int main() {
 		cout << "given element not found in the tree";
 	cout << endl;
 
-	//size of tree
+//size of tree
 
 	cout << "size of tree is " << tree::sizeOfBinaryTree(T.getRootNode());
 	cout << endl;
@@ -626,7 +666,7 @@ int main() {
 			<< tree::sizeOfBinaryTreeWithoutRecursion(T.getRootNode());
 
 	cout << endl;
-	//display elements in order level (reverse order)
+//display elements in order level (reverse order)
 	tree::printTheLevelOrderDataInReversOrder(T.getRootNode());
 	cout << endl;
 
@@ -660,16 +700,26 @@ int main() {
 	cout << endl;
 	int height = 0;
 	tree::DaimeterOfBinaryTree(T2.getRootNode(), &height);
-	cout <<"Diameter of Binary Tree:"<< height;
+	cout << "Diameter of Binary Tree:" << height;
 
 	cout << endl;
 	int maxLevelAndSum = tree::levelWithMaxSum(T.getRootNode());
 
 	cout << "Max sum level is: " << maxLevelAndSum;
-    cout<<endl;
-    int a[100];
+	cout << endl;
+	int a[100];
 
-    tree::printLeafNodePathFromRoot(T.getRootNode(),a,0);
+	tree::printLeafNodePathFromRoot(T.getRootNode(), a, 0);
 
+	bool aa = tree::hasPathWithGivenSum(T.getRootNode(), 15);
+	if (aa)
+		cout << "yes! there is path for given sum";
+	else
+		cout << "No! there is no path for given sum";
+
+	cout<<endl;
+	cout<<"sum of all elements: "<<tree::sumOfAllBinaryTreeElements(T2.getRootNode());
+
+	cout<<endl;
 	return 0;
 }
