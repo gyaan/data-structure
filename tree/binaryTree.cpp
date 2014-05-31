@@ -532,6 +532,41 @@ public:
 		return maxLevel;
 	}
 
+	static void printLeafNodePathFromRoot(treeNode *rootNode,int path[],int pathLength){
+
+		if (rootNode==NULL)  //if root node is null
+			return;
+
+		path[pathLength]=rootNode->val; //add root node value to path array
+        pathLength++; //increase the path length by 1
+
+        //if root node is a leaf node then print path from root to that node
+		if(rootNode->leftChild ==NULL && rootNode->rightChild ==NULL){
+			//printArray is function which just print the array values
+			printArray(path,pathLength);
+            cout<<endl;
+		}
+		//if root node is not leaf node
+		else{
+
+			 //call function for left child
+			if(rootNode->leftChild)
+				tree::printLeafNodePathFromRoot(rootNode->leftChild,path,pathLength);
+
+			//call function for right child
+			if(rootNode->rightChild)
+				tree::printLeafNodePathFromRoot(rootNode->rightChild,path,pathLength);
+		}
+
+	}
+
+	void static printArray(int arr[],int length){
+
+		for(int i=0;i<length;i++)
+			cout<<arr[i]<<" ";
+
+	}
+
 };
 
 int main() {
@@ -631,6 +666,10 @@ int main() {
 	int maxLevelAndSum = tree::levelWithMaxSum(T.getRootNode());
 
 	cout << "Max sum level is: " << maxLevelAndSum;
+    cout<<endl;
+    int a[100];
+
+    tree::printLeafNodePathFromRoot(T.getRootNode(),a,0);
 
 	return 0;
 }
