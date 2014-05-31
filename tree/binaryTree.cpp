@@ -2,6 +2,8 @@
 #include<climits>
 #include<queue>
 #include<stack>
+#include<list>
+#include<string>
 using namespace std;
 
 //tree node
@@ -454,6 +456,82 @@ public:
 
 	}
 
+	static int DaimeterOfBinaryTree(treeNode *rootNode, int *height) {
+
+		int leftHeight;
+		int rightHeight;
+		if (!rootNode)
+			return 0;  //root nod is null diameter will be 0
+		else {
+			//calculate the diameter of left subTree
+			leftHeight = tree::DaimeterOfBinaryTree(rootNode->leftChild,
+					height);
+
+			//calculate the diameter of right subTree
+			rightHeight = tree::DaimeterOfBinaryTree(rootNode->rightChild,
+					height);
+
+			if (leftHeight + rightHeight + 1 > *height)
+
+				//if current node diameter is greater then previous nodes diameter
+				*height = leftHeight + rightHeight + 1;
+
+			//current node diameter will max(leftHeight,rightHeight)+1
+			int returnValue =
+					leftHeight > rightHeight ? leftHeight : rightHeight;
+
+			//current node diameter
+			return returnValue + 1;
+		}
+
+	}
+
+	static int levelWithMaxSum(treeNode *rootNode) {
+
+		//variable store to level with max sum
+		int maxLevel = 0;
+
+		//store the max sum
+		int maxSum = 0;
+
+		//temp variables
+		int tempSum = 0;
+		int tempLevel = 0;
+
+		//queues to store current and next level nodes
+		queue<treeNode*> Q1;
+		queue<treeNode*> Q2;
+
+		Q1.push(rootNode);
+		while (!Q1.empty()) {
+			treeNode * temp = Q1.front();
+			Q1.pop();
+			tempSum = tempSum + temp->val;
+
+			if (temp->leftChild) {
+				Q2.push(temp->leftChild);
+			}
+			if (temp->rightChild) {
+				Q2.push(temp->rightChild);
+			}
+
+			if (Q1.empty()) {
+				tempLevel++;  //increase levels
+				//if current level sum is greater then max sum
+				if (tempSum > maxSum) {
+					maxSum = tempSum;
+					maxLevel = tempLevel;
+				}
+				//swap Queues element next level to current level
+				swap(Q1, Q2);
+				//again set tempsum to zero
+				tempSum = 0;
+			}
+		}
+		//final max level
+		return maxLevel;
+	}
+
 };
 
 int main() {
@@ -543,6 +621,16 @@ int main() {
 		cout << "Yes man both binary trees are identical enjoy !!! ";
 	else
 		cout << "No man both binary trees are not identical so sad !!! ";
+
+	cout << endl;
+	int height = 0;
+	tree::DaimeterOfBinaryTree(T2.getRootNode(), &height);
+	cout <<"Diameter of Binary Tree:"<< height;
+
+	cout << endl;
+	int maxLevelAndSum = tree::levelWithMaxSum(T.getRootNode());
+
+	cout << "Max sum level is: " << maxLevelAndSum;
 
 	return 0;
 }
