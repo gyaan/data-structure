@@ -159,6 +159,29 @@ public:
 
 	}
 
+	static treeNode* FindAElementInTheTreeAndReturnThatNode(treeNode *rootNode, int value) {
+
+		//if root node is null
+		if (rootNode == NULL)
+			return NULL;
+		else {
+			if (rootNode->val == value) { //if root node value is equal to search key ::yes found
+				return rootNode;
+			} else {
+				treeNode *temp = tree::FindAElementInTheTreeAndReturnThatNode(rootNode->leftChild,
+						value); //check search key in left child
+				if (temp != NULL)  //yes found no need to check in right child
+					return temp;
+				else
+					tree::FindAElementInTheTreeAndReturnThatNode(rootNode->rightChild, value); //need to check in right child
+			}
+		}
+
+	}
+
+
+
+
 	static bool FindAElementInTheTreeWithoutRecursion(treeNode *rootNode,
 			int value) {
 
@@ -600,6 +623,22 @@ public:
 
 	}
 
+	static int printAllAncestorsOfANode(treeNode *rootNode, treeNode * givenNode) {
+
+		if (rootNode == NULL)
+			return 0;
+		if (rootNode->leftChild == givenNode
+				|| rootNode->rightChild == givenNode
+				|| printAllAncestorsOfANode(rootNode->leftChild, givenNode)
+				|| printAllAncestorsOfANode(rootNode->rightChild, givenNode))
+		{
+			cout<< rootNode->val << "  ";
+			return 1;
+		}
+		return 0;
+
+	}
+
 	void static printArray(int arr[], int length) {
 
 		for (int i = 0; i < length; i++)
@@ -717,8 +756,19 @@ int main() {
 	else
 		cout << "No! there is no path for given sum";
 
-	cout<<endl;
-	cout<<"sum of all elements: "<<tree::sumOfAllBinaryTreeElements(T2.getRootNode());
+	cout << endl;
+	cout << "sum of all elements: "
+			<< tree::sumOfAllBinaryTreeElements(T2.getRootNode());
+
+	cout << endl;
+
+	//print all ancestors of node
+
+	//first get that node ex. want to find 10th node ancestors
+	treeNode *givenNode = tree::FindAElementInTheTreeAndReturnThatNode(T.getRootNode(),10);
+
+	//now print all ancestors of node
+	tree::printAllAncestorsOfANode(T.getRootNode(), givenNode);
 
 	cout<<endl;
 	return 0;
