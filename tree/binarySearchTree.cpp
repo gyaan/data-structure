@@ -77,32 +77,91 @@ public:
 			this->preOrderTraversal(this->root);
 	}
 
+	static bool findAElelentInBinarySearchTree(treeNode * rootNode, int value) {
+
+		//if root node itself is null
+		if (rootNode == NULL)
+			return 0;
+		//if given value is equal to root Node value
+		if (rootNode->val == value)
+			return 1;
+		else {
+			if (rootNode->val > value)
+				tree::findAElelentInBinarySearchTree(rootNode->leftChild,
+						value);
+			if (rootNode->val < value)
+				tree::findAElelentInBinarySearchTree(rootNode->rightChild,
+						value);
+		}
+
+	}
+
+	static bool findAElelentInBinarySearchTreeWithoutRecursion(
+			treeNode *rootNode, int value) {
+
+		if (rootNode == NULL)
+			return 0;
+		while (rootNode) {
+
+			if (rootNode->val == value)
+				return 1;
+			if (rootNode->val > value)
+				rootNode = rootNode->leftChild;
+			else
+				rootNode = rootNode->rightChild;
+		}
+
+	}
+
+	treeNode* getRootNode() {
+		return this->root;
+	}
+
 };
 
 int main() {
-	tree* T = new tree();
-	T->insertValue(1);
-	T->insertValue(2);
-	T->insertValue(3);
-	T->insertValue(4);
-	T->insertValue(5);
-	T->insertValue(6);
-	T->insertValue(7);
-	T->insertValue(8);
-	T->insertValue(9);
-	T->insertValue(10);
+//	tree* T = new tree();
+	tree T;
+	T.insertValue(17);
+	T.insertValue(12);
+	T.insertValue(3);
+	T.insertValue(40);
+	T.insertValue(5);
+	T.insertValue(90);
+	T.insertValue(70);
+	T.insertValue(28);
+	T.insertValue(19);
+	T.insertValue(10);
 
-    cout<<"inorder traverse"<<endl;
+	cout << "inorder traverse" << endl;
 	string traversType = "in";
-	T->traverse(traversType);
+	T.traverse(traversType);
 
-	cout<<"pre order traverse"<<endl;
+	cout << "pre order traverse" << endl;
 	traversType = "pre";
-	T->traverse(traversType);
+	T.traverse(traversType);
 
-	cout<<"post order traverse"<<endl;
+	cout << "post order traverse" << endl;
 	traversType = "post";
-	T->traverse(traversType);
+	T.traverse(traversType);
+
+	cout << "check if given value is in the tree or not" << endl;
+
+	bool aa;
+	aa = tree::findAElelentInBinarySearchTree(T.getRootNode(), 90);
+
+	if (aa)
+		cout << "yes found \n";
+	else
+		cout << "not found \n";
+
+	bool bb ;
+	bb= tree::findAElelentInBinarySearchTreeWithoutRecursion(T.getRootNode(),80);
+
+	if (bb)
+			cout << "Again yes found \n";
+		else
+			cout << "Again not found \n";
 
 	return 0;
 }
