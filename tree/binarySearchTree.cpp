@@ -115,6 +115,49 @@ public:
 
 	}
 
+	static int findMinElementInTheBinaryTree(treeNode *rootNode) {
+
+		if (rootNode->leftChild == NULL)
+			return rootNode->val;
+		else
+			return tree::findMinElementInTheBinaryTree(rootNode->leftChild);
+
+	}
+
+	static int findMinElementInTheBinaryTreeWithoutRecursion(
+			treeNode *rootNode) {
+
+		while (true) {
+
+			if (rootNode->leftChild == NULL)
+				return rootNode->val;
+			else
+				rootNode = rootNode->leftChild;
+		}
+
+	}
+
+
+
+	static int findMaxElementInTheBinaryTree(treeNode *rootNode) {
+		if (rootNode->rightChild == NULL)
+			return rootNode->val;
+		else
+			return tree::findMaxElementInTheBinaryTree(rootNode->rightChild);
+	}
+
+	static int findMaxElementInTheBinaryTreeWithoutRecursion(
+			treeNode * rootNode) {
+		while (true) {
+
+			if (rootNode->rightChild == NULL)
+				return rootNode->val;
+			else
+				rootNode = rootNode->rightChild;
+		}
+
+	}
+
 	treeNode* getRootNode() {
 		return this->root;
 	}
@@ -157,13 +200,32 @@ int main() {
 	else
 		cout << "not found \n";
 
-	bool bb ;
-	bb= tree::findAElelentInBinarySearchTreeWithoutRecursion(T.getRootNode(),10);
+	bool bb;
+	bb = tree::findAElelentInBinarySearchTreeWithoutRecursion(T.getRootNode(),
+			10);
 
 	if (bb)
-			cout << "Again yes found \n";
-		else
-			cout << "Again not found \n";
+		cout << "Again yes found \n";
+	else
+		cout << "Again not found \n";
+
+	cout << "minimum Element in the bst "
+			<< tree::findMinElementInTheBinaryTree(T.getRootNode());
+	cout << endl;
+
+	cout << "minimum Element in the bst Again "
+			<< tree::findMinElementInTheBinaryTreeWithoutRecursion(
+					T.getRootNode());
+	cout << endl;
+
+	cout << "maximum Element in the bst "
+			<< tree::findMaxElementInTheBinaryTree(T.getRootNode());
+	cout << endl;
+
+	cout << "maximum Element in the bst Again "
+			<< tree::findMaxElementInTheBinaryTreeWithoutRecursion(
+					T.getRootNode());
+	cout << endl;
 
 	return 0;
 }
