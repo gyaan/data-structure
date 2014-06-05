@@ -111,6 +111,108 @@ public:
 				rootNode = rootNode->rightChild;
 		}
 
+		return 0;
+
+	}
+
+	static int findMinElementInTheBinaryTree(treeNode *rootNode) {
+
+		if (rootNode->leftChild == NULL)
+			return rootNode->val;
+		else
+			return tree::findMinElementInTheBinaryTree(rootNode->leftChild);
+
+	}
+
+	static int findMinElementInTheBinaryTreeWithoutRecursion(
+			treeNode *rootNode) {
+
+		while (true) {
+
+			if (rootNode->leftChild == NULL)
+				return rootNode->val;
+			else
+				rootNode = rootNode->leftChild;
+		}
+
+	}
+
+	static int findMaxElementInTheBinaryTree(treeNode *rootNode) {
+		if (rootNode->rightChild == NULL)
+			return rootNode->val;
+		else
+			return tree::findMaxElementInTheBinaryTree(rootNode->rightChild);
+	}
+
+	static int findMaxElementInTheBinaryTreeWithoutRecursion(
+			treeNode * rootNode) {
+		while (true) {
+
+			if (rootNode->rightChild == NULL)
+				return rootNode->val;
+			else
+				rootNode = rootNode->rightChild;
+		}
+
+	}
+
+	static treeNode* deleteAElementInBinarySearchTree(treeNode *rootNode,
+			int value) {
+
+		if (rootNode == NULL) //if given tree rootNode itself is null
+			cout << "Given rootNode itself is null";
+
+		// if given node value is less then current rootNode Value
+		else if (rootNode->val > value)
+			rootNode->leftChild = tree::deleteAElementInBinarySearchTree(
+					rootNode->leftChild, value);
+
+		// if given node value is greater then current rootNode Value
+		else if (rootNode->val < value)
+			rootNode->rightChild = tree::deleteAElementInBinarySearchTree(
+					rootNode->rightChild, value);
+		else {  //we got the node
+
+			//if given node have both children
+			if (rootNode->leftChild && rootNode->rightChild) {
+
+				//find max element in left subTree
+				int temp = tree::findMaxElementInTheBinaryTree(
+						rootNode->leftChild);
+
+				//replace given node value to max value
+				rootNode->val = temp;
+
+				//again call same function for left subTree
+				rootNode->leftChild = tree::deleteAElementInBinarySearchTree(
+						rootNode->leftChild, rootNode->val);
+
+
+			}
+
+			//if given node is a leaf node
+			else if (!rootNode->leftChild && !rootNode->rightChild) {
+				rootNode = NULL;
+			}
+
+			//if given node have only one child node
+			else {
+
+				//if given node have leftChild
+				if (rootNode->leftChild != NULL)
+					rootNode = rootNode->leftChild;
+
+				//if given node have rightChild
+				if (rootNode->rightChild != NULL)
+					rootNode = rootNode->rightChild;
+
+			}
+
+		}
+
+
+		return rootNode;
+
 	}
 
 	treeNode* getRootNode() {
@@ -155,13 +257,40 @@ int main() {
 	else
 		cout << "not found \n";
 
-	bool bb ;
-	bb= tree::findAElelentInBinarySearchTreeWithoutRecursion(T.getRootNode(),80);
+	bool bb;
+	bb = tree::findAElelentInBinarySearchTreeWithoutRecursion(T.getRootNode(),
+			10);
 
 	if (bb)
-			cout << "Again yes found \n";
-		else
-			cout << "Again not found \n";
+		cout << "Again yes found \n";
+	else
+		cout << "Again not found \n";
+
+	cout << "minimum Element in the bst "
+			<< tree::findMinElementInTheBinaryTree(T.getRootNode());
+	cout << endl;
+
+	cout << "minimum Element in the bst Again "
+			<< tree::findMinElementInTheBinaryTreeWithoutRecursion(
+					T.getRootNode());
+	cout << endl;
+
+	cout << "maximum Element in the bst "
+			<< tree::findMaxElementInTheBinaryTree(T.getRootNode());
+	cout << endl;
+
+	cout << "maximum Element in the bst Again "
+			<< tree::findMaxElementInTheBinaryTreeWithoutRecursion(
+					T.getRootNode());
+	cout << endl;
+
+//delete a node have value 19
+	tree::deleteAElementInBinarySearchTree(T.getRootNode(), 19);
+
+//check 19 is deleted or not
+	cout << "inorder traverse" << endl;
+
+	T.traverse("in");
 
 	return 0;
 }
