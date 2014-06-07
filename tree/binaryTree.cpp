@@ -4,6 +4,7 @@
 #include<stack>
 #include<list>
 #include<string>
+#include<map>
 using namespace std;
 
 //tree node
@@ -638,6 +639,7 @@ public:
 		return 0;
 
 	}
+
 
 	void static printArray(int arr[], int length) {
 
