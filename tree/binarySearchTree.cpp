@@ -87,10 +87,29 @@ public:
 			return 1;
 		else {
 			if (rootNode->val > value)
-				tree::findAElelentInBinarySearchTree(rootNode->leftChild,
+				return tree::findAElelentInBinarySearchTree(rootNode->leftChild,
 						value);
 			if (rootNode->val < value)
-				tree::findAElelentInBinarySearchTree(rootNode->rightChild,
+				return tree::findAElelentInBinarySearchTree(rootNode->rightChild,
+						value);
+		}
+
+	}
+
+	static treeNode* findAElelentInBinarySearchTreeAndReturn(treeNode * rootNode, int value) {
+
+		//if root node itself is null
+		if (rootNode == NULL)
+			return NULL;
+		//if given value is equal to root Node value
+		if (rootNode->val == value)
+			return rootNode;
+		else {
+			if (rootNode->val > value)
+				return tree::findAElelentInBinarySearchTreeAndReturn(rootNode->leftChild,
+						value);
+			if (rootNode->val < value)
+				return tree::findAElelentInBinarySearchTreeAndReturn(rootNode->rightChild,
 						value);
 		}
 
@@ -187,7 +206,6 @@ public:
 				rootNode->leftChild = tree::deleteAElementInBinarySearchTree(
 						rootNode->leftChild, rootNode->val);
 
-
 			}
 
 			//if given node is a leaf node
@@ -210,8 +228,38 @@ public:
 
 		}
 
-
 		return rootNode;
+
+	}
+
+	static treeNode * lowestCommonAncestorOfGivenTwoNodes(treeNode *rootNode,
+			treeNode *node1, treeNode *node2) {
+		if (rootNode == NULL)
+			return NULL;
+
+		//always node2 value should greater then node1
+		if (node1->val > node2->val) {
+			treeNode* temp = node1;
+			node1 = node2;
+			node2 = temp;
+		}
+
+		while (1) {
+
+			//yes we got LCA of node1 n node2
+			if (node1->val < rootNode->val && node2->val > rootNode->val)
+				return rootNode;
+			//if current node value is less then both n1 and n2 value
+			//means LCA will be in right subtree
+			else if (node1->val > rootNode->val && node2->val > rootNode->val)
+				rootNode = rootNode->rightChild;
+
+			//if current node value is greater then both n1 and n2 value
+			//means LCA will be in left subtree
+			else
+				rootNode = rootNode->leftChild;
+
+		}
 
 	}
 
@@ -250,7 +298,7 @@ int main() {
 	cout << "check if given value is in the tree or not" << endl;
 
 	bool aa;
-	aa = tree::findAElelentInBinarySearchTree(T.getRootNode(), 90);
+	aa = tree::findAElelentInBinarySearchTree(T.getRootNode(), 76);
 
 	if (aa)
 		cout << "yes found \n";
@@ -291,6 +339,18 @@ int main() {
 	cout << "inorder traverse" << endl;
 
 	T.traverse("in");
+
+//get to nodes from tree and find LCA of those two node
+
+treeNode* n1 = tree::findAElelentInBinarySearchTreeAndReturn(T.getRootNode(),40);
+treeNode* n2 = tree::findAElelentInBinarySearchTreeAndReturn(T.getRootNode(),5);
+cout<<endl;
+
+treeNode* lca = tree::lowestCommonAncestorOfGivenTwoNodes(T.getRootNode(),n1,n2);
+
+cout<<"lca of "<<n1->val<<" and "<<n2->val<<" is "<<lca->val;
+
+cout<<endl;
 
 	return 0;
 }
