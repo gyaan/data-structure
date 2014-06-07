@@ -237,6 +237,7 @@ public:
 		if (rootNode == NULL)
 			return NULL;
 
+
 		//always node2 value should greater then node1
 		if (node1->val > node2->val) {
 			treeNode* temp = node1;
