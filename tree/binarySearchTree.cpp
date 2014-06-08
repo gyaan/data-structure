@@ -1,5 +1,6 @@
 #include<iostream>
 #include<string>
+#include<climits>
 using namespace std;
 
 //tree node
@@ -90,13 +91,14 @@ public:
 				return tree::findAElelentInBinarySearchTree(rootNode->leftChild,
 						value);
 			if (rootNode->val < value)
-				return tree::findAElelentInBinarySearchTree(rootNode->rightChild,
-						value);
+				return tree::findAElelentInBinarySearchTree(
+						rootNode->rightChild, value);
 		}
 
 	}
 
-	static treeNode* findAElelentInBinarySearchTreeAndReturn(treeNode * rootNode, int value) {
+	static treeNode* findAElelentInBinarySearchTreeAndReturn(
+			treeNode * rootNode, int value) {
 
 		//if root node itself is null
 		if (rootNode == NULL)
@@ -106,11 +108,11 @@ public:
 			return rootNode;
 		else {
 			if (rootNode->val > value)
-				return tree::findAElelentInBinarySearchTreeAndReturn(rootNode->leftChild,
-						value);
+				return tree::findAElelentInBinarySearchTreeAndReturn(
+						rootNode->leftChild, value);
 			if (rootNode->val < value)
-				return tree::findAElelentInBinarySearchTreeAndReturn(rootNode->rightChild,
-						value);
+				return tree::findAElelentInBinarySearchTreeAndReturn(
+						rootNode->rightChild, value);
 		}
 
 	}
@@ -237,7 +239,6 @@ public:
 		if (rootNode == NULL)
 			return NULL;
 
-
 		//always node2 value should greater then node1
 		if (node1->val > node2->val) {
 			treeNode* temp = node1;
@@ -262,6 +263,87 @@ public:
 
 		}
 
+	}
+
+	static bool isItBinarySearchTree(treeNode *rootNode) {
+
+		//if root node is null then its bst
+		if (rootNode == NULL)
+			return 1;
+		//if rootNode left child value is gr8 then root node value
+		if (rootNode->leftChild != NULL
+				&& rootNode->val < rootNode->leftChild->val)
+			return 0;
+		//if rootNode rightChild value is less then the root node value
+		if (rootNode->rightChild != NULL
+				&& rootNode->val > rootNode->rightChild->val)
+			return 0;
+
+		// check left and right children should also be bst
+		if (!tree::isItBinarySearchTree(rootNode->leftChild)
+				|| !tree::isItBinarySearchTree(rootNode->rightChild))
+			return 0;
+
+		//after traversing all nodes
+		return 1;
+
+	}
+
+	static bool isItBinarySearchTreeUsingMinAndMax(treeNode *rootNode) {
+
+		//if rootNode is null means its BST
+		if (rootNode == NULL)
+			return 1;
+
+		//if rootNode value is less then max value in left subtree
+		if (rootNode->leftChild != NULL
+				&& rootNode->val
+						< tree::findMaxElementInTheBinaryTree(
+								rootNode->leftChild))
+			return 0;
+
+		//if rootNode value is greater then min value in right subtree
+		if (rootNode->rightChild != NULL
+				&& rootNode->val
+						> tree::findMinElementInTheBinaryTree(
+								rootNode->rightChild))
+			return 0;
+
+		//check for left and right children
+		if (!tree::isItBinarySearchTreeUsingMinAndMax(rootNode->leftChild)
+				|| !tree::isItBinarySearchTreeUsingMinAndMax(
+						rootNode->rightChild))
+			return 0;
+
+		// after checking all nodes
+		return 1;
+	}
+
+	static bool isItBinarySearchTreeUsingInOrderTraversal(treeNode *rootNode,
+			int *min) {
+
+		//if rootNode is null means it's BST
+		if (rootNode == NULL)
+			return 1;
+
+		//check left child is BST or not
+		if (!tree::isItBinarySearchTreeUsingInOrderTraversal(
+				rootNode->leftChild, min))
+			return 0;
+
+		//check current node value if less then return 0
+		if (rootNode->val < *min)
+			return 0;
+
+		//assign current node value to min
+		*min = rootNode->val;
+
+		//check right child is BST or not
+		if (!tree::isItBinarySearchTreeUsingInOrderTraversal(
+				rootNode->rightChild, min))
+			return 0;
+
+		return 1;
 	}
 
 	treeNode* getRootNode() {
@@ -343,15 +425,47 @@ int main() {
 
 //get to nodes from tree and find LCA of those two node
 
-treeNode* n1 = tree::findAElelentInBinarySearchTreeAndReturn(T.getRootNode(),40);
-treeNode* n2 = tree::findAElelentInBinarySearchTreeAndReturn(T.getRootNode(),5);
-cout<<endl;
+	treeNode* n1 = tree::findAElelentInBinarySearchTreeAndReturn(
+			T.getRootNode(), 40);
+	treeNode* n2 = tree::findAElelentInBinarySearchTreeAndReturn(
+			T.getRootNode(), 5);
+	cout << endl;
 
-treeNode* lca = tree::lowestCommonAncestorOfGivenTwoNodes(T.getRootNode(),n1,n2);
+	treeNode* lca = tree::lowestCommonAncestorOfGivenTwoNodes(T.getRootNode(),
+			n1, n2);
 
-cout<<"lca of "<<n1->val<<" and "<<n2->val<<" is "<<lca->val;
+	cout << "lca of " << n1->val << " and " << n2->val << " is " << lca->val;
 
-cout<<endl;
+	cout << endl;
+
+	cout << "check given tree is binary tree or not" << endl;
+
+	int min = INT_MIN;
+
+	bool check = tree::isItBinarySearchTreeUsingInOrderTraversal(
+			T.getRootNode(), &min);
+	if (check)
+		cout << "Yes given tree is binary search tree";
+	else
+		cout << "No given tree is not binary search tree";
+
+//lets make bst to non bst
+
+	n1->val = 7;
+
+	cout << endl;
+
+	int minAgain = INT_MIN;
+	bool checkAgain = tree::isItBinarySearchTreeUsingInOrderTraversal(
+			T.getRootNode(), &minAgain);
+	if (checkAgain)
+		cout << "Yes given tree is binary search tree";
+	else
+		cout << "No given tree is not binary search tree";
+
+	cout << endl;
+//make it again bst for future use
+	n1->val = 40;
 
 	return 0;
 }
