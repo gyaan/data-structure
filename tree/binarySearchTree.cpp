@@ -346,11 +346,36 @@ public:
 		return 1;
 	}
 
+static int kthSmallestElementInTheTree(treeNode* rootNode,int k, int *count){
+
+	if(rootNode==NULL)
+		return 0;
+
+	//check if kth element in left subtree of rootNode
+	int kthEle = tree::kthSmallestElementInTheTree(rootNode->leftChild,k,count);
+
+	//yes we found and return
+	if(kthEle)
+		return kthEle;
+
+	//when count is equal to k then return current node value
+	if(++*count==k)
+		return rootNode->val;
+
+	//check in right subtree of rootNode
+	return tree::kthSmallestElementInTheTree(rootNode->rightChild,k,count);
+
+}
+
+
+
 	treeNode* getRootNode() {
 		return this->root;
 	}
 
 };
+
+
 
 int main() {
 //	tree* T = new tree();
@@ -467,6 +492,10 @@ int main() {
 //make it again bst for future use
 	n1->val = 40;
 
+	int count =0;
+	cout<<"5th smallestElement: "<<tree::kthSmallestElementInTheTree(T.getRootNode(),5,&count);
+
+    cout<<endl;
 	return 0;
 }
 
