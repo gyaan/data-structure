@@ -160,7 +160,8 @@ public:
 
 	}
 
-	static treeNode* FindAElementInTheTreeAndReturnThatNode(treeNode *rootNode, int value) {
+	static treeNode* FindAElementInTheTreeAndReturnThatNode(treeNode *rootNode,
+			int value) {
 
 		//if root node is null
 		if (rootNode == NULL)
@@ -169,19 +170,17 @@ public:
 			if (rootNode->val == value) { //if root node value is equal to search key ::yes found
 				return rootNode;
 			} else {
-				treeNode *temp = tree::FindAElementInTheTreeAndReturnThatNode(rootNode->leftChild,
-						value); //check search key in left child
+				treeNode *temp = tree::FindAElementInTheTreeAndReturnThatNode(
+						rootNode->leftChild, value); //check search key in left child
 				if (temp != NULL)  //yes found no need to check in right child
 					return temp;
 				else
-					tree::FindAElementInTheTreeAndReturnThatNode(rootNode->rightChild, value); //need to check in right child
+					tree::FindAElementInTheTreeAndReturnThatNode(
+							rootNode->rightChild, value); //need to check in right child
 			}
 		}
 
 	}
-
-
-
 
 	static bool FindAElementInTheTreeWithoutRecursion(treeNode *rootNode,
 			int value) {
@@ -624,28 +623,91 @@ public:
 
 	}
 
-	static int printAllAncestorsOfANode(treeNode *rootNode, treeNode * givenNode) {
+	static int printAllAncestorsOfANode(treeNode *rootNode,
+			treeNode * givenNode) {
 
 		if (rootNode == NULL)
 			return 0;
 		if (rootNode->leftChild == givenNode
 				|| rootNode->rightChild == givenNode
 				|| printAllAncestorsOfANode(rootNode->leftChild, givenNode)
-				|| printAllAncestorsOfANode(rootNode->rightChild, givenNode))
-		{
-			cout<< rootNode->val << "  ";
+				|| printAllAncestorsOfANode(rootNode->rightChild, givenNode)) {
+			cout << rootNode->val << "  ";
 			return 1;
 		}
 		return 0;
 
 	}
 
+	static void printLeftViewOfBinaryTree(treeNode *rootNode) {
+
+		//queues to store current and next level nodes
+		queue<treeNode*> Q1;
+		queue<treeNode*> Q2;
+
+		Q1.push(rootNode);
+
+		//print rootNode node
+		cout<<rootNode->val<<endl;
+
+		while (!Q1.empty()) {
+
+			treeNode * temp = Q1.front();
+			Q1.pop();
+
+			if (temp->leftChild)
+				Q2.push(temp->leftChild);
+			if (temp->rightChild)
+				Q2.push(temp->rightChild);
+
+			if (Q1.empty() && !Q2.empty()) {
+				//print the first element of each level
+				cout << Q2.front()->val<<endl;
+				//move nodes form next level to current level
+				swap(Q1, Q2);
+			}
+
+		}
+
+	}
+
+
+	static void printRightViewOfBinaryTree(treeNode *rootNode) {
+
+		    //queues to store current and next level nodes
+			queue<treeNode*> Q1;
+			queue<treeNode*> Q2;
+
+			Q1.push(rootNode);
+
+			while (!Q1.empty()) {
+
+				treeNode * temp = Q1.front();
+				Q1.pop();
+
+				if (temp->leftChild)
+					Q2.push(temp->leftChild);
+				if (temp->rightChild)
+					Q2.push(temp->rightChild);
+
+				if (Q1.empty()) {
+
+					//print last element of each node
+					cout<<temp->val<<endl;
+					//move nodes form next level to current level
+					swap(Q1, Q2);
+				}
+
+			}
+
+		}
+
+
 
 	void static printArray(int arr[], int length) {
 
 		for (int i = 0; i < length; i++)
 			cout << arr[i] << " ";
-
 	}
 
 };
@@ -657,9 +719,9 @@ int main() {
 	T.insert(3);
 	T.insert(4);
 	T.insert(5);
-	T.insert(6);
+//	T.insert(6);
 	T.insert(7);
-	T.insert(8);
+//	T.insert(8);
 	T.insert(9);
 	T.insert(10);
 	T.insert(11);
@@ -767,11 +829,21 @@ int main() {
 	//print all ancestors of node
 
 	//first get that node ex. want to find 10th node ancestors
-	treeNode *givenNode = tree::FindAElementInTheTreeAndReturnThatNode(T.getRootNode(),10);
+	treeNode *givenNode = tree::FindAElementInTheTreeAndReturnThatNode(
+			T.getRootNode(), 10);
 
 	//now print all ancestors of node
 	tree::printAllAncestorsOfANode(T.getRootNode(), givenNode);
+	cout << endl;
 
+	cout<<"left view of binary tree"<<endl;
+	tree::printLeftViewOfBinaryTree(T.getRootNode());
 	cout<<endl;
+
+	cout<<"right view of the binary tree"<<endl;
+	tree::printRightViewOfBinaryTree(T.getRootNode());
+	cout<<endl;
+
+
 	return 0;
 }
