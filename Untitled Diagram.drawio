@@ -1,1 +1,43 @@
-<mxfile host="app.diagrams.net" modified="2021-12-30T11:38:37.567Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" etag="HizBtIeJYYC5pyDX1XSW" version="16.1.0" type="github"><diagram id="UQvYuuvn9tKNly2ddNtE" name="Page-1">ddHBDoMgDADQr+GOkjnvzm0XTx52JtIJCVqDLLJ9/TTgHHE7UV4LJYWwonMXwwdZoQBNUiocYSeSpkmSZ/OyyNNLlh09tEaJULRBrV4QkAZ9KAFjVGgRtVVDjA32PTQ2Mm4MTnHZHXXcdeAt7KBuuN7rTQkrveYHuvkVVCvXzgkNmY6vxQFGyQVOX8RKwgqDaH3UuQL0Mrx1Lv7c+U/28zADvf1xYA62u+dN9EOsfAM=</diagram></mxfile>
+<mxfile host="app.diagrams.net" modified="2021-12-30T15:23:27.150Z" agent="5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/96.0.4664.110 Safari/537.36" etag="h6XJ19iVHNQ7_eYFxuTz" version="16.1.0" type="github">
+  <diagram id="UQvYuuvn9tKNly2ddNtE" name="Page-1">
+    <mxGraphModel dx="1186" dy="1767" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="850" pageHeight="1100" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="k1M43xDxPURnghMMaFWi-2" value="captain service&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="100" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="k1M43xDxPURnghMMaFWi-3" value="orders&amp;nbsp;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="110" y="240" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="k1M43xDxPURnghMMaFWi-5" value="Rewards service&amp;nbsp;&lt;br&gt;&lt;br&gt;" style="rounded=0;whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="570" y="80" width="120" height="60" as="geometry" />
+        </mxCell>
+        <mxCell id="k1M43xDxPURnghMMaFWi-6" value="reservation event&amp;nbsp;" style="shape=callout;whiteSpace=wrap;html=1;perimeter=calloutPerimeter;" vertex="1" parent="1">
+          <mxGeometry x="290" y="200" width="120" height="80" as="geometry" />
+        </mxCell>
+        <mxCell id="k1M43xDxPURnghMMaFWi-8" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;exitX=1;exitY=0.75;exitDx=0;exitDy=0;" edge="1" parent="1" source="k1M43xDxPURnghMMaFWi-3" target="k1M43xDxPURnghMMaFWi-6">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="390" y="320" as="sourcePoint" />
+            <mxPoint x="440" y="270" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="k1M43xDxPURnghMMaFWi-9" value="" style="endArrow=classic;startArrow=classic;html=1;rounded=0;" edge="1" parent="1">
+          <mxGeometry width="50" height="50" relative="1" as="geometry">
+            <mxPoint x="360" y="200" as="sourcePoint" />
+            <mxPoint x="560" y="110" as="targetPoint" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="k1M43xDxPURnghMMaFWi-15" value="accepted Ride&amp;nbsp;&lt;br&gt;captatin_id&amp;nbsp;&lt;br&gt;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="280" y="-195" width="100" height="30" as="geometry" />
+        </mxCell>
+        <mxCell id="k1M43xDxPURnghMMaFWi-16" value="captain id.&amp;nbsp; &amp;nbsp; &amp;nbsp;kapid&amp;nbsp;" style="text;html=1;align=center;verticalAlign=middle;resizable=0;points=[];autosize=1;strokeColor=none;fillColor=none;" vertex="1" parent="1">
+          <mxGeometry x="10" y="-400" width="120" height="20" as="geometry" />
+        </mxCell>
+        <mxCell id="k1M43xDxPURnghMMaFWi-17" value="captain_id&lt;br&gt;ride_accpted&amp;nbsp;&lt;br&gt;+ve for reward&amp;nbsp;" style="whiteSpace=wrap;html=1;" vertex="1" parent="1">
+          <mxGeometry x="330" y="-170" width="120" height="60" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
